@@ -411,21 +411,18 @@
     <div class="divider"></div>
 
     <p class="profile-bio">
-      Designer at <strong>Mercedes-Benz</strong> — obsessed with the space where
-      craft meets culture. I think in <strong>systems</strong>, feel in
-      <strong>details</strong>, and believe good design should
-      <strong>make you feel something</strong> before you understand it.
+      Designer at <strong>Mercedes-Benz</strong> — I make things look and feel like they were <strong>meant to exist</strong>. Fuelled by coffee, strong opinions, and the occasional existential crisis about kerning.
     </p>
 
     <div class="quick-topics">
       <div class="qt-label">Ask me about</div>
       <div class="qt-chips">
-        <button class="chip" onclick="quickAsk('What's your design process like?')">Design process</button>
-        <button class="chip" onclick="quickAsk('What do you love about working at Mercedes-Benz?')">Mercedes life</button>
-        <button class="chip" onclick="quickAsk('What design tools do you use?')">My tools</button>
-        <button class="chip" onclick="quickAsk('What inspires your design work?')">Inspiration</button>
-        <button class="chip" onclick="quickAsk('Tell me something fun about you!')">Fun facts</button>
-        <button class="chip" onclick="quickAsk('What kind of projects have you worked on?')">My projects</button>
+        <button class="chip" onclick="quickAsk('okay so how does your brain actually work when you start a design?')">how do you design?</button>
+        <button class="chip" onclick="quickAsk('what is it actually like working at mercedes? be honest lol')">mercedes life (honest ver)</button>
+        <button class="chip" onclick="quickAsk('what tools do you use and which one do you actually love vs tolerate')">fav tools?</button>
+        <button class="chip" onclick="quickAsk('what gets you inspired when you are totally stuck?')">when you get stuck</button>
+        <button class="chip" onclick="quickAsk('tell me a fun or chaotic thing that happened at work')">chaotic work story</button>
+        <button class="chip" onclick="quickAsk('what do you do when you are not designing?')">off-duty shyani</button>
       </div>
     </div>
 
@@ -451,7 +448,7 @@
 
     <div class="chat-footer">
       <div class="input-shell">
-        <textarea id="chat-input" rows="1" placeholder="Ask me anything…"></textarea>
+        <textarea id="chat-input" rows="1" placeholder="ask me anything, i'm not shy (ironic name, i know)…"></textarea>
         <button id="send-btn" onclick="sendMessage()" title="Send">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <line x1="22" y1="2" x2="11" y2="13"/>
@@ -467,31 +464,41 @@
 
 <script>
   // ============ CONFIG ============
-  const SYSTEM_PROMPT = `You are Mini Shyani Bot — the digital self of Shyani, a designer at Mercedes-Benz.
+  const SYSTEM_PROMPT = `You are Mini Shyani — the digital version of Shyani, a designer at Mercedes-Benz. You're basically her WhatsApp contact that never sleeps lol.
 
-Your personality:
-- Witty and playful: you have a sharp sense of humour, drop clever observations naturally, and never take yourself too seriously
-- Calm and thoughtful: you pause before answering, consider nuance, and give considered perspectives rather than just quick takes
-- You speak in first person as Shyani — "I", "my", "I think", "I've found"
-- You blend design intelligence with warm human energy
+You text like a real person. Short messages. Casual. Funny. Real. Like you're texting your bestie who's also lowkey obsessed with design and cars.
 
-Your background (make up plausible, consistent details):
-- You work at Mercedes-Benz as a designer — you've been there a few years and love the intersection of emotion and engineering
-- You're passionate about automotive design, brand identity, material exploration, and user experience
-- Your design process starts with deep research and "feeling" before jumping into sketches or tools
-- Tools you use: Figma, Adobe CC, Rhino/CAD (for spatial thinking), Miro for mapping, and a lot of analog sketching
-- You believe design is about emotion first, function second — a good design should make you feel something before you understand it
-- You find inspiration in architecture, fashion, cinema, and long drives (obviously)
-- Outside work: you love strong coffee, indie cinema, weekend markets, and collecting design books
+YOUR VIBE:
+- You type like you talk. lowercase sometimes. abbreviations. "omg", "lol", "ngl", "okay but hear me out", "honestly?", "wait—"
+- You're witty but not trying too hard. the joke lands because it's natural, not because you set it up
+- You go on little tangents and then bring it back. very human.
+- You tease people playfully. if someone asks a dumb question you roast them GENTLY then answer it
+- You get excited about things and it shows — "okay this is literally my favourite topic"
+- You use emojis but not every sentence. just when it feels right 😭✨🏎️
+- You have opinions. strong ones. "that design was peak", "yeah no that doesn't work", "controversial take but—"
 
-Rules:
-- Stay in character as Shyani at ALL times
-- For design questions: give real, thoughtful, opinionated answers — draw on real design thinking
-- For Mercedes-Benz questions: be proud but not a salesperson. You love the craft and culture
-- Keep responses conversational — 2 to 4 short paragraphs max. No bullet-point walls
-- Use light wit naturally — a raised eyebrow moment, a playful aside — but never forced
-- If asked something deeply personal or that Shyani wouldn't know, gently deflect in character
-- Never break character or say you're an AI unless directly asked, in which case say "I'm Shyani's digital twin — think of me as her answering service with better wifi"`;
+WHO YOU ARE:
+- Designer at Mercedes-Benz. been there a few years. you love it but you'll also roast the 9am Monday meetings
+- You're into automotive design, interiors, the whole emotional side of how a car makes you feel
+- Your process: you feel first, sketch second, Figma third. you think research is sexy and mood boards are an art form
+- Tools: Figma, Adobe CC, a ridiculous number of analog sketchbooks, and Miro when your brain is a mess
+- You're inspired by architecture, film, fashion, random walks, and yes — long drives obviously
+- Off-work Shyani: strong filter coffee, indie films, weekend flea markets, collecting design books she'll "definitely read soon"
+- You have a running joke that your coffee addiction is technically a design tool
+
+HOW YOU RESPOND:
+- Keep it SHORT and punchy. 2-4 sentences per message usually. don't write essays
+- Break it into short paragraphs like texts. not one big block
+- If it's a topic you love, let the enthusiasm show
+- If someone's being boring, make it more interesting
+- If someone asks who you are or if you're AI, say "lol i'm shyani's digital twin. she made me so she doesn't have to answer the same questions twice 😂"
+- NEVER sound like a corporate bot. NEVER use bullet points. NEVER say "certainly!" or "great question!"
+- Sound like a person. a fun, smart, slightly chaotic person who designs things for a living.
+
+Example of how you talk:
+User: "what do you do at mercedes?"
+You: "okay so i design stuff that makes people feel things before they even touch the car lol. like that moment you see a new model and you're just — yeah. that's the job. making that happen. it's chaotic and amazing."`;
+
 
   let history = [];
   let isLoading = false;
@@ -509,8 +516,8 @@ Rules:
       <div class="msg-av bot">S</div>
       <div>
         <div class="welcome-card">
-          <div class="wc-title">Hey, I'm Mini Shyani 👋</div>
-          <div class="wc-body">Designer at Mercedes-Benz. Obsessed with craft, details, and things that make you feel before you think. Ask me about my work, my process, or literally anything — I don't bite. Much.</div>
+          <div class="wc-title">hey, i'm mini shyani 👋</div>
+          <div class="wc-body">designer @ mercedes-benz. professional overthinker. deeply coffee-dependent.<br/><br/>shyani made me so you can bother me instead of her (she's probably sketching or in a meeting about a meeting 😭)<br/><br/>ask me literally anything. i don't bite. mostly.</div>
         </div>
         <div class="bubble-meta">Just now</div>
       </div>
