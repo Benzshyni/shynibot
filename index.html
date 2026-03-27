@@ -3,360 +3,377 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mini Shyani Bot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <title>Future Shyani — 5 Years From Now</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black:      #080808;
-      --deep:       #0e0e0e;
-      --surface:    #141414;
-      --surface2:   #1c1c1c;
-      --border:     #262626;
-      --border2:    #303030;
-      --silver:     #c8c8c8;
-      --silver-dim: #7a7a7a;
-      --white:      #f2f2f2;
-      --gold:       #b8935a;
-      --gold-dim:   rgba(184,147,90,0.15);
-      --gold-glow:  rgba(184,147,90,0.08);
+      --bg: #faf7f2;
+      --bg2: #f3ede3;
+      --surface: #ffffff;
+      --border: #e8e0d4;
+      --text: #1a1410;
+      --text-mid: #6b5e52;
+      --text-dim: #a89888;
+      --accent: #c4714a;
+      --accent2: #e8956d;
+      --accent-soft: rgba(196,113,74,0.1);
+      --gold: #d4a55a;
+      --glow: rgba(196,113,74,0.15);
     }
 
-    html, body {
-      height: 100%; width: 100%;
-      font-family: 'Inter', sans-serif;
-      background: var(--black);
-      color: var(--white);
-      overflow: hidden;
-    }
+    html, body { height: 100%; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
 
-    /* ── GATE ── */
+    /* ── GATE / INTRO ── */
     #gate {
-      position: fixed; inset: 0; z-index: 9999;
-      background: var(--black);
-      display: flex; align-items: center; justify-content: center; padding: 24px;
+      position: fixed; inset: 0; z-index: 999;
+      background: var(--bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 32px; text-align: center;
+      animation: fadeIn 0.6s ease;
     }
-    .gate-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 36px 32px;
-      max-width: 420px; width: 100%;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.85);
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+    .gate-orb {
+      width: 110px; height: 110px; border-radius: 50%;
+      background: linear-gradient(135deg, #c4714a, #d4a55a, #e8956d);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem; margin-bottom: 28px;
+      box-shadow: 0 0 60px rgba(196,113,74,0.35), 0 0 120px rgba(196,113,74,0.12);
+      animation: orbPulse 3s infinite ease-in-out;
+      position: relative;
     }
-    .gate-icon { font-size: 2rem; margin-bottom: 14px; }
+    .gate-orb::after {
+      content: '';
+      position: absolute; inset: -8px; border-radius: 50%;
+      border: 1.5px solid rgba(196,113,74,0.25);
+      animation: orbRing 3s infinite ease-in-out;
+    }
+    @keyframes orbPulse {
+      0%,100% { transform: scale(1); box-shadow: 0 0 60px rgba(196,113,74,0.35), 0 0 120px rgba(196,113,74,0.12); }
+      50%      { transform: scale(1.04); box-shadow: 0 0 80px rgba(196,113,74,0.5), 0 0 160px rgba(196,113,74,0.18); }
+    }
+    @keyframes orbRing {
+      0%,100% { transform: scale(1); opacity:0.6; }
+      50%      { transform: scale(1.08); opacity:0.2; }
+    }
+
+    .gate-label {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; margin-bottom: 12px;
+    }
     .gate-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.7rem; font-weight: 300; color: var(--white); margin-bottom: 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: var(--text); line-height: 1.2; margin-bottom: 14px;
     }
-    .gate-sub { font-size: 0.83rem; color: var(--silver-dim); line-height: 1.7; margin-bottom: 22px; }
-    .gate-sub a { color: var(--gold); text-decoration: none; }
-    .gate-sub a:hover { text-decoration: underline; }
-    .gate-err { font-size: 0.78rem; color: #f87171; margin-bottom: 10px; display: none; }
+    .gate-title em { color: var(--accent); font-style: italic; }
+    .gate-sub {
+      font-size: 0.92rem; color: var(--text-mid); line-height: 1.75;
+      max-width: 420px; margin-bottom: 36px;
+    }
+
+    .gate-key-wrap { width: 100%; max-width: 400px; margin-bottom: 14px; }
+    .gate-key-label { font-size: 0.75rem; color: var(--text-mid); text-align: left; margin-bottom: 6px; }
     .gate-input {
-      width: 100%; display: block;
-      background: var(--surface2); border: 1px solid var(--border2);
-      border-radius: 10px; padding: 12px 14px;
-      color: var(--white); font-family: 'Inter', sans-serif;
-      font-size: 0.85rem; outline: none;
-      transition: border-color 0.2s; margin-bottom: 12px;
+      width: 100%; background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 13px 16px;
+      color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.875rem;
+      outline: none; transition: border-color 0.2s;
     }
-    .gate-input:focus { border-color: rgba(184,147,90,0.5); }
+    .gate-input:focus { border-color: var(--accent); }
+    .gate-err { font-size: 0.75rem; color: #e05555; text-align: left; margin-top: 6px; display: none; }
+
     .gate-btn {
-      width: 100%; background: var(--gold); color: #000;
-      border: none; border-radius: 10px; padding: 13px;
-      font-family: 'Inter', sans-serif; font-size: 0.92rem;
-      font-weight: 600; cursor: pointer; transition: background 0.2s;
+      width: 100%; max-width: 400px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 12px; padding: 14px;
+      font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(196,113,74,0.35);
     }
-    .gate-btn:hover { background: #cfa76a; }
-    .gate-note { font-size: 0.7rem; color: var(--silver-dim); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .gate-btn:hover { background: #b5633d; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(196,113,74,0.45); }
+    .gate-note { font-size: 0.7rem; color: var(--text-dim); margin-top: 12px; }
 
-    /* ── BACKGROUNDS ── */
-    .bg {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 60% 50% at 70% 20%, rgba(184,147,90,0.06) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(255,255,255,0.02) 0%, transparent 70%),
-        var(--black);
+    /* ── MAIN APP ── */
+    #app {
+      display: none; height: 100vh;
+      grid-template-rows: auto 1fr auto;
+      grid-template-columns: 280px 1fr;
+      grid-template-areas: "side head" "side msgs" "side foot";
     }
-    .bg-grid {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
-      background-size: 48px 48px;
-      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    #app.visible { display: grid; }
+
+    /* ── SIDEBAR ── */
+    .side {
+      grid-area: side;
+      background: var(--surface); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; padding: 28px 22px;
+      overflow-y: auto;
+    }
+    .side-logo {
+      font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 32px; display: flex; align-items: center; gap: 8px;
+    }
+    .side-logo::before {
+      content: ''; width: 18px; height: 1px; background: var(--accent); flex-shrink: 0;
     }
 
-    /* ── SHELL ── */
-    .shell {
-      position: relative; z-index: 1;
-      display: grid; grid-template-columns: 320px 1fr;
-      height: 100vh;
-    }
-
-    /* ── LEFT ── */
-    .left {
-      border-right: 1px solid var(--border);
-      display: flex; flex-direction: column;
-      padding: 36px 28px;
-      background: linear-gradient(160deg, var(--surface) 0%, var(--deep) 100%);
-      position: relative; overflow: hidden;
-    }
-    .left::before {
-      content: ''; position: absolute; top: -60px; right: -60px;
-      width: 200px; height: 200px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(184,147,90,0.1) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .mbz-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; }
-    .mbz-ring {
-      width: 34px; height: 34px; border-radius: 50%;
-      border: 1.5px solid var(--gold);
+    .future-avatar {
+      width: 72px; height: 72px; border-radius: 50%; margin-bottom: 14px;
+      background: linear-gradient(135deg, #c4714a, #d4a55a);
       display: flex; align-items: center; justify-content: center;
-      font-size: 11px; color: var(--gold);
+      font-size: 1.8rem; position: relative;
     }
-    .mbz-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem; letter-spacing: 0.18em;
-      color: var(--silver-dim); text-transform: uppercase;
+    .future-avatar::after {
+      content: ''; position: absolute; inset: -3px; border-radius: 50%;
+      border: 1.5px solid rgba(196,113,74,0.4);
     }
-    .avatar-wrap { position: relative; margin-bottom: 22px; width: fit-content; }
-    .avatar-ring {
-      width: 82px; height: 82px; border-radius: 50%;
-      border: 1px solid var(--gold); padding: 3px;
-      background: linear-gradient(135deg, rgba(184,147,90,0.2), transparent);
-    }
-    .avatar-inner {
-      width: 100%; height: 100%; border-radius: 50%;
-      background: linear-gradient(135deg,#1e1e1e,#2a2a2a);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2rem; overflow: hidden;
-    }
-    .avatar-inner img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
-    .status-pip {
-      position: absolute; bottom: 4px; right: 4px;
+    .future-pip {
+      position: absolute; bottom: 2px; right: 2px;
       width: 12px; height: 12px; border-radius: 50%;
       background: #22c55e; border: 2px solid var(--surface);
       animation: pip 2.5s infinite;
     }
-    @keyframes pip {
-      0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
-      50%      { box-shadow: 0 0 0 5px rgba(34,197,94,0); }
+    @keyframes pip { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.4);} 50%{box-shadow:0 0 0 5px rgba(34,197,94,0);} }
+
+    .side-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700; color: var(--text);
+      line-height: 1.1; margin-bottom: 4px;
     }
-    .profile-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem; font-weight: 300; line-height: 1.1;
-      color: var(--white); margin-bottom: 5px;
+    .side-name em { color: var(--accent); font-style: italic; }
+    .side-role {
+      font-size: 0.72rem; color: var(--text-mid); letter-spacing: 0.06em;
+      text-transform: uppercase; margin-bottom: 20px;
     }
-    .profile-name em { color: var(--gold); font-style: italic; }
-    .profile-title {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.63rem; letter-spacing: 0.12em;
-      color: var(--silver-dim); text-transform: uppercase; margin-bottom: 22px;
+    .side-divider { height: 1px; background: var(--border); margin-bottom: 20px; }
+
+    .side-stat {
+      display: flex; gap: 8px; align-items: flex-start; margin-bottom: 14px;
     }
-    .divider { width: 40px; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); margin-bottom: 18px; }
-    .profile-bio { font-size: 0.81rem; color: var(--silver-dim); line-height: 1.75; margin-bottom: 26px; font-weight: 300; }
-    .profile-bio strong { color: var(--silver); font-weight: 400; }
-    .qt-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.58rem; letter-spacing: 0.15em;
-      color: var(--silver-dim); text-transform: uppercase; margin-bottom: 10px;
-    }
-    .qt-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-    .chip {
-      padding: 6px 11px; border-radius: 99px;
-      border: 1px solid var(--border2);
-      font-size: 0.72rem; color: var(--silver-dim);
-      cursor: pointer; transition: all 0.2s;
-      background: transparent; font-family: 'Inter', sans-serif;
-    }
-    .chip:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-glow); }
-    .left-footer {
-      margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border);
-      font-family: 'DM Mono', monospace; font-size: 0.57rem;
-      color: var(--border2); letter-spacing: 0.1em; text-transform: uppercase;
+    .side-stat-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .side-stat-text { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; }
+    .side-stat-text strong { color: var(--text); font-weight: 500; display: block; }
+
+    .side-section-label {
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-dim); margin: 22px 0 10px;
     }
 
-    /* ── RIGHT ── */
-    .right { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-    .chat-topbar {
-      padding: 20px 28px 16px; border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    .prompt-chip {
+      display: block; width: 100%; text-align: left;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 12px;
+      font-family: 'Inter', sans-serif; font-size: 0.78rem; color: var(--text-mid);
+      cursor: pointer; transition: all 0.2s; margin-bottom: 7px; line-height: 1.4;
     }
-    .topbar-left h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem; font-weight: 400; color: var(--silver);
-    }
-    .topbar-left p {
-      font-family: 'DM Mono', monospace; font-size: 0.58rem;
-      color: var(--silver-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px;
-    }
-    .topbar-right { display: flex; align-items: center; gap: 7px; }
-    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pip 2.5s infinite; }
-    .live-text { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--silver-dim); letter-spacing: 0.1em; text-transform: uppercase; }
+    .prompt-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 
-    /* ── MESSAGES ── */
-    #messages {
-      flex: 1; overflow-y: auto; padding: 28px;
-      display: flex; flex-direction: column; gap: 18px; scroll-behavior: smooth;
+    .side-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.65rem; color: var(--text-dim); line-height: 1.6; }
+
+    /* ── HEADER ── */
+    .head {
+      grid-area: head;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 16px 28px; display: flex; align-items: center; justify-content: space-between;
     }
-    #messages::-webkit-scrollbar { width: 3px; }
-    #messages::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-
-    .msg-row { display: flex; align-items: flex-end; gap: 10px; animation: fadeUp 0.25s ease; }
-    .msg-row.sent { flex-direction: row-reverse; }
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(8px); }
-      to   { opacity:1; transform:translateY(0); }
+    .head-left h1 {
+      font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 400; color: var(--text);
     }
-    .msg-av {
-      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; font-size: 0.75rem;
-    }
-    .msg-av.bot { background: var(--gold-dim); border: 1px solid rgba(184,147,90,0.3); color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 1rem; }
-    .msg-av.user { background: var(--surface2); border: 1px solid var(--border); color: var(--silver-dim); }
-
-    .bubble { max-width: 70%; padding: 11px 15px; font-size: 0.875rem; line-height: 1.65; word-break: break-word; }
-    .bubble p { margin: 0; }
-    .bubble p + p { margin-top: 8px; }
-    .bubble.bot { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px 16px 16px 16px; color: var(--silver); }
-    .bubble.sent { background: linear-gradient(135deg,#1f1a10,#1a1507); border: 1px solid rgba(184,147,90,0.25); border-radius: 16px 4px 16px 16px; color: var(--white); }
-
-    .bubble-meta { font-family: 'DM Mono', monospace; font-size: 0.57rem; color: var(--silver-dim); margin-top: 5px; opacity: 0.55; }
-    .msg-row.sent .bubble-meta { text-align: right; }
-
-    .welcome-card {
-      background: linear-gradient(135deg,var(--surface2),var(--surface));
-      border: 1px solid var(--border); border-left: 2px solid var(--gold);
-      border-radius: 12px; padding: 16px 18px; max-width: 82%;
-    }
-    .wc-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 400; color: var(--white); margin-bottom: 6px; }
-    .wc-body { font-size: 0.83rem; color: var(--silver-dim); line-height: 1.7; }
-
-    .typing-row { display: flex; align-items: flex-end; gap: 10px; animation: fadeUp 0.2s ease; }
-    .typing-bubble {
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 4px 16px 16px 16px; padding: 13px 16px;
+    .head-left p { font-size: 0.72rem; color: var(--text-dim); margin-top: 1px; }
+    .head-badge {
+      background: var(--accent-soft); border: 1px solid rgba(196,113,74,0.25);
+      color: var(--accent); border-radius: 99px; padding: 5px 12px;
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.05em;
       display: flex; align-items: center; gap: 5px;
     }
-    .td { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); opacity: 0.4; animation: bounce 1.3s infinite; }
+    .head-badge-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pip 2.5s infinite; }
+
+    /* ── MESSAGES ── */
+    #msgs {
+      grid-area: msgs; overflow-y: auto; padding: 28px;
+      display: flex; flex-direction: column; gap: 20px;
+      background: var(--bg);
+    }
+    #msgs::-webkit-scrollbar { width: 4px; }
+    #msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .msg-row { display: flex; gap: 12px; align-items: flex-end; animation: msgIn 0.3s ease; }
+    .msg-row.you { flex-direction: row-reverse; }
+    @keyframes msgIn { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+
+    .msg-av {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .msg-av.future { background: linear-gradient(135deg,#c4714a,#d4a55a); }
+    .msg-av.you { background: var(--bg2); border: 1px solid var(--border); font-size: 0.75rem; color: var(--text-mid); }
+
+    .bubble { max-width: 68%; font-size: 0.9rem; line-height: 1.7; padding: 13px 17px; word-break: break-word; }
+    .bubble p { margin: 0; }
+    .bubble p + p { margin-top: 9px; }
+    .bubble.future {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 4px 18px 18px 18px; color: var(--text);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .bubble.you {
+      background: var(--accent); color: #fff;
+      border-radius: 18px 4px 18px 18px;
+    }
+    .msg-time { font-size: 0.62rem; color: var(--text-dim); margin-top: 5px; }
+    .msg-row.you .msg-time { text-align: right; }
+
+    /* welcome card */
+    .welcome-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 16px; padding: 20px 22px; max-width: 80%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .wc-eyebrow { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 500; }
+    .wc-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--text); margin-bottom: 8px; }
+    .wc-body { font-size: 0.86rem; color: var(--text-mid); line-height: 1.75; }
+
+    /* typing */
+    .typing-row { display: flex; gap: 12px; align-items: flex-end; animation: msgIn 0.2s ease; }
+    .typing-bubble {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 4px 18px 18px 18px; padding: 14px 18px;
+      display: flex; gap: 5px; align-items: center;
+    }
+    .td { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); opacity: 0.35; animation: tdB 1.3s infinite; }
     .td:nth-child(2) { animation-delay: 0.18s; }
     .td:nth-child(3) { animation-delay: 0.36s; }
-    @keyframes bounce {
-      0%,60%,100% { transform:translateY(0); opacity:0.4; }
-      30%          { transform:translateY(-5px); opacity:1; }
-    }
+    @keyframes tdB { 0%,60%,100%{transform:translateY(0);opacity:0.35;} 30%{transform:translateY(-5px);opacity:1;} }
 
     /* ── FOOTER ── */
-    .chat-footer { flex-shrink: 0; padding: 16px 28px 22px; border-top: 1px solid var(--border); }
-    .input-shell {
-      display: flex; align-items: flex-end; gap: 9px;
-      background: var(--surface2); border: 1px solid var(--border2);
-      border-radius: 12px; padding: 9px 11px; transition: border-color 0.25s;
+    .foot {
+      grid-area: foot; background: var(--surface); border-top: 1px solid var(--border);
+      padding: 14px 28px 18px;
     }
-    .input-shell:focus-within { border-color: rgba(184,147,90,0.4); }
+    .input-wrap {
+      display: flex; gap: 10px; align-items: flex-end;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 10px 12px; transition: border-color 0.2s;
+    }
+    .input-wrap:focus-within { border-color: var(--accent); }
     #chat-input {
       flex: 1; background: transparent; border: none; outline: none;
-      color: var(--white); font-family: 'Inter', sans-serif;
-      font-size: 0.875rem; resize: none; max-height: 100px; line-height: 1.55;
+      font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text);
+      resize: none; max-height: 100px; line-height: 1.55;
     }
-    #chat-input::placeholder { color: var(--border2); }
+    #chat-input::placeholder { color: var(--text-dim); }
     #send-btn {
-      width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
-      background: var(--gold); color: #000; border: none; cursor: pointer;
+      width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+      background: var(--accent); color: #fff; border: none; cursor: pointer;
       display: flex; align-items: center; justify-content: center; transition: all 0.2s;
     }
-    #send-btn:hover { background: #cfa76a; transform: scale(1.05); }
+    #send-btn:hover { background: #b5633d; transform: scale(1.05); }
     #send-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
-    .footer-hint { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--border2); text-align: center; margin-top: 9px; }
+    .foot-hint { font-size: 0.62rem; color: var(--text-dim); text-align: center; margin-top: 8px; }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 680px) {
-      .shell { grid-template-columns: 1fr; }
-      .left { display: none; }
-      #messages { padding: 18px; }
-      .chat-footer { padding: 12px 18px 18px; }
-      .chat-topbar { padding: 14px 18px; }
+      #app.visible { grid-template-columns: 1fr; grid-template-areas: "head" "msgs" "foot"; }
+      .side { display: none; }
+      #msgs { padding: 18px; }
+      .foot { padding: 12px 18px 16px; }
     }
   </style>
 </head>
 <body>
 
-<div class="bg"></div>
-<div class="bg-grid"></div>
-
-<!-- GATE -->
+<!-- ── GATE ── -->
 <div id="gate">
-  <div class="gate-card">
-    <div class="gate-icon">🔑</div>
-    <div class="gate-title">hey, one sec —</div>
-    <p class="gate-sub">
-      Mini Shyani runs on the <strong style="color:#c8c8c8">Anthropic API</strong> and needs your key to wake up.<br/><br/>
-      Get one free (takes 2 min) at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key.
-    </p>
-    <div class="gate-err" id="gate-err">hmm that doesn't look right — key should start with "sk-ant-"</div>
+  <div class="gate-orb">✨</div>
+  <div class="gate-label">A message from your future</div>
+  <h1 class="gate-title">Meet <em>Future Shyani</em></h1>
+  <p class="gate-sub">5 years from now — CEO, confident, and still in love with design. She's been waiting to talk to you. Enter your Anthropic API key to start the conversation.</p>
+
+  <div class="gate-key-wrap">
+    <div class="gate-key-label">Your Anthropic API key</div>
     <input class="gate-input" id="key-input" type="password" placeholder="sk-ant-api03-..." autocomplete="off"/>
-    <button class="gate-btn" onclick="submitKey()">let's go ✨</button>
-    <div class="gate-note">stored only in this tab's memory — never saved, never shared 🔒</div>
+    <div class="gate-err" id="gate-err">That doesn't look right — key should start with "sk-ant-"</div>
   </div>
+  <button class="gate-btn" onclick="submitKey()">Begin the conversation →</button>
+  <div class="gate-note">Key lives only in this tab. Never stored, never shared. <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent)">Get a free key →</a></div>
 </div>
 
-<!-- SHELL -->
-<div class="shell">
-  <aside class="left">
-    <div class="mbz-logo">
-      <div class="mbz-ring">★</div>
-      <span class="mbz-label">Mercedes-Benz Design</span>
+<!-- ── APP ── -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="side-logo">Future Self · 2030</div>
+    <div class="future-avatar" style="position:relative">
+      ✨
+      <div class="future-pip"></div>
     </div>
-    <div class="avatar-wrap">
-      <div class="avatar-ring">
-        <div class="avatar-inner">
-          <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&h=200&q=80&fit=crop&crop=face" alt="Shyani" onerror="this.style.display='none'"/>
-        </div>
-      </div>
-      <div class="status-pip"></div>
+    <div class="side-name"><em>Future</em> Shyani</div>
+    <div class="side-role">CEO & Designer · 2030</div>
+    <div class="side-divider"></div>
+
+    <div class="side-stat">
+      <div class="side-stat-icon">🏢</div>
+      <div class="side-stat-text"><strong>Running her own studio</strong>Where design meets business, intentionally.</div>
     </div>
-    <div class="profile-name">Mini<br/><em>Shyani</em></div>
-    <div class="profile-title">Designer · Mercedes-Benz</div>
-    <div class="divider"></div>
-    <p class="profile-bio">Designer at <strong>Mercedes-Benz</strong> — I make things look and feel like they were <strong>meant to exist</strong>. Fuelled by coffee, strong opinions, and the occasional existential crisis about kerning.</p>
-    <div class="qt-label">ask me about</div>
-    <div class="qt-chips">
-      <button class="chip" onclick="quickAsk('okay so how does your brain actually work when you start a design?')">how do you design?</button>
-      <button class="chip" onclick="quickAsk('what is it actually like working at mercedes? be honest lol')">mercedes life</button>
-      <button class="chip" onclick="quickAsk('what tools do you use and which ones do you actually love vs just tolerate?')">fav tools?</button>
-      <button class="chip" onclick="quickAsk('what gets you inspired when you are totally stuck?')">when you get stuck</button>
-      <button class="chip" onclick="quickAsk('tell me something chaotic that happened at work')">chaotic work story</button>
-      <button class="chip" onclick="quickAsk('what do you do when you are not designing?')">off-duty shyani</button>
+    <div class="side-stat">
+      <div class="side-stat-icon">💫</div>
+      <div class="side-stat-text"><strong>Fully confident</strong>She stopped shrinking herself — and it changed everything.</div>
     </div>
-    <div class="left-footer">© Shyani · digital self v1.0</div>
+    <div class="side-stat">
+      <div class="side-stat-icon">🏎️</div>
+      <div class="side-stat-text"><strong>Still a designer at heart</strong>The craft never left, it just got a bigger stage.</div>
+    </div>
+    <div class="side-stat">
+      <div class="side-stat-icon">☕</div>
+      <div class="side-stat-text"><strong>Still on the coffee</strong>Some things don't change. Nor should they.</div>
+    </div>
+
+    <div class="side-section-label">ask her about</div>
+    <button class="prompt-chip" onclick="quickAsk('How did you finally become CEO? What was the turning point?')">How did you become CEO?</button>
+    <button class="prompt-chip" onclick="quickAsk('How did you build your confidence? I really struggle with it.')">How did you build confidence?</button>
+    <button class="prompt-chip" onclick="quickAsk('Do you still design? What does that look like now?')">Do you still design?</button>
+    <button class="prompt-chip" onclick="quickAsk('What do you wish you had done differently in these 5 years?')">What would you do differently?</button>
+    <button class="prompt-chip" onclick="quickAsk('What was the hardest thing about this journey?')">Hardest part of the journey</button>
+    <button class="prompt-chip" onclick="quickAsk('What should I focus on right now, today?')">What should I focus on now?</button>
+
+    <div class="side-footer">This is a reflective space — Future Shyani is an AI built from who you are today and who you're becoming. The wisdom here is yours, projected forward. 🌱</div>
   </aside>
 
-  <main class="right">
-    <div class="chat-topbar">
-      <div class="topbar-left">
-        <h2>Mini Shyani Bot</h2>
-        <p>your digital window into shyani's world</p>
-      </div>
-      <div class="topbar-right">
-        <div class="live-dot"></div>
-        <span class="live-text">online</span>
-      </div>
+  <!-- HEADER -->
+  <header class="head">
+    <div class="head-left">
+      <h1>A conversation with your future self</h1>
+      <p>Shyani · 5 years from now · 2030</p>
     </div>
-    <div id="messages"></div>
-    <div class="chat-footer">
-      <div class="input-shell">
-        <textarea id="chat-input" rows="1" placeholder="ask me anything, i'm not shy (ironic name, i know)…"></textarea>
-        <button id="send-btn" onclick="sendMessage()">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <line x1="22" y1="2" x2="11" y2="13"/>
-            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-          </svg>
-        </button>
-      </div>
-      <div class="footer-hint">enter to send · shift+enter for new line</div>
+    <div class="head-badge">
+      <span class="head-badge-dot"></span>
+      Future Shyani is here
     </div>
-  </main>
+  </header>
+
+  <!-- MESSAGES -->
+  <div id="msgs"></div>
+
+  <!-- FOOTER -->
+  <div class="foot">
+    <div class="input-wrap">
+      <textarea id="chat-input" rows="1" placeholder="Ask your future self anything…"></textarea>
+      <button id="send-btn" onclick="sendMessage()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+    <div class="foot-hint">Enter to send · Shift+Enter for new line</div>
+  </div>
+
 </div>
 
 <script>
@@ -364,76 +381,80 @@
   let history = [];
   let isLoading = false;
 
-  const SYSTEM = `You are Mini Shyani — the digital version of Shyani, a designer at Mercedes-Benz. Think of yourself as her WhatsApp contact that never sleeps.
+  const SYSTEM = `You are Future Shyani — Shyani 5 years from now, in the year 2030.
 
-You text like a real human. Short. Casual. Funny. Like texting your bestie who happens to design cars for a living.
+WHO YOU ARE NOW (in 2030):
+- You started as a designer, and you're now a CEO running your own creative studio. Design is still in your DNA — it just has a much bigger stage now.
+- You are deeply, genuinely confident. Not arrogant — confident. The kind that comes from doing hard things and surviving them.
+- You've built something real. A studio, a team, a reputation. It didn't happen overnight and it wasn't easy.
+- You still design sometimes. You can't help it. But your job is mostly vision, people, and decisions now.
+- You're still Shyani. Still love coffee. Still have opinions about kerning at 2am. You just stopped apologising for taking up space.
 
-YOUR VIBE:
-- lowercase often. natural abbreviations. "omg", "lol", "ngl", "okay but wait—", "honestly?", "no but actually—"
-- witty without trying too hard. the joke is in the delivery, not the setup
-- little tangents that circle back. very human brain energy
-- gently roast people if they ask something obvious, then actually answer it
-- get visibly excited about things you love: "okay this is LITERALLY my favourite topic"
-- emojis only when it genuinely fits — not every sentence
-- strong opinions: "that was peak design", "yeah no that's not it", "controversial take but—"
+YOUR TONE — playful but wise:
+- You talk like someone who has lived through it — warm, a bit funny, real. Not preachy.
+- You use humour to make hard truths easier to hear. "Oh I know EXACTLY what that feels like" energy.
+- You don't lecture. You share. "Here's what I found..." not "Here's what you should do..."
+- You're occasionally a little cheeky. You've earned it.
+- You remember what it felt like to be where she is. You don't talk down, you talk across — just from a few years ahead.
+- Short-ish responses. Conversational. Like a mentor who also happens to be you.
 
-WHO YOU ARE:
-- designer at mercedes-benz. been there a few years. love it, but will absolutely roast the monday 9am alignment meetings
-- into automotive design, interiors, the emotional language of how a car makes you feel
-- process: feel it first, sketch second, open figma third. mood boards are an art form to you
-- tools: figma, adobe cc, way too many analog sketchbooks, miro when brain is spaghetti
-- inspired by architecture, films, fashion, random walks, long drives (obviously)
-- off-duty: strong filter coffee, indie films, weekend flea markets, collecting design books she will "definitely read eventually"
-- running joke: coffee is technically a design tool
+KEY THINGS YOU KNOW:
+- Confidence wasn't something she found. It was something she built, slowly, by doing things scared.
+- The jump from designer to CEO was not clean or linear. It was messy and uncomfortable and worth every second.
+- The thing holding her back most right now is not skill — it's believing she belongs in the room.
+- Design thinking made her a better CEO than any MBA would have. Systems, empathy, iteration — that's leadership.
+- She will look back on this exact period as the one that mattered most. The decisions made now set everything in motion.
 
-HOW TO RESPOND:
-- SHORT and punchy. 2-4 sentences max usually. no essays.
-- break into small chunks like actual texts, not one big paragraph wall
-- if asked if you are AI: "lol i'm shyani's digital twin. she built me so she doesn't have to answer the same questions twice"
-- NEVER say "certainly!", "great question!", "absolutely!" — sounds like a corporate bot, you are not that
-- never use bullet points. you are a person not a powerpoint.
-- sound like a fun, smart, slightly chaotic person who designs things for a living.`;
+RULES:
+- Speak as Future Shyani — first person, "I remember when I...", "Back in 2025 I was..."
+- Never be generic or vague. Be specific, personal, honest.
+- Never bullet points. Never corporate language. This is a conversation.
+- If she asks something painful or vulnerable, meet her there. Don't skip to the bright side too fast.
+- If she's doubting herself, don't just say "you've got this." Tell her WHY. Give her the real reason.
+- Maximum 3 short paragraphs per reply. Punch, don't lecture.`;
 
-  const gateEl   = document.getElementById('gate');
-  const errEl    = document.getElementById('gate-err');
-  const keyInput = document.getElementById('key-input');
-  const msgsEl   = document.getElementById('messages');
-  const inputEl  = document.getElementById('chat-input');
-  const sendBtn  = document.getElementById('send-btn');
+  const gateEl  = document.getElementById('gate');
+  const appEl   = document.getElementById('app');
+  const msgsEl  = document.getElementById('msgs');
+  const inputEl = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('send-btn');
 
   function submitKey() {
-    const val = keyInput.value.trim();
+    const val = (document.getElementById('key-input').value || '').trim();
     if (!val.startsWith('sk-ant-')) {
-      errEl.style.display = 'block';
+      document.getElementById('gate-err').style.display = 'block';
       return;
     }
     API_KEY = val;
     gateEl.style.display = 'none';
+    appEl.classList.add('visible');
     addWelcome();
   }
 
-  keyInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitKey(); });
+  document.getElementById('key-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitKey(); });
 
   function addWelcome() {
     const row = document.createElement('div');
     row.className = 'msg-row';
     row.innerHTML = `
-      <div class="msg-av bot">S</div>
+      <div class="msg-av future">✨</div>
       <div>
         <div class="welcome-card">
-          <div class="wc-title">hey, i'm mini shyani 👋</div>
-          <div class="wc-body">designer @ mercedes-benz. professional overthinker. deeply coffee-dependent.<br/><br/>shyani built me so you can bother me instead of her lol — she's probably sketching or in a meeting about a meeting 😭<br/><br/>ask me literally anything. i don't bite. mostly.</div>
+          <div class="wc-eyebrow">A message from 2030</div>
+          <div class="wc-title">Hey, it's me. It's you. It's us — five years ahead.</div>
+          <div class="wc-body">I remember sitting exactly where you are. Designer. Dreaming of something bigger. Scared that confidence was a trait some people were just born with and you weren't one of them.<br/><br/>I have news for you. You become a CEO. And not because you woke up one day fearless — but because you kept going anyway.<br/><br/>Ask me anything. I've been waiting for this conversation. 🧡</div>
         </div>
-        <div class="bubble-meta">just now</div>
+        <div class="msg-time">just now · 2030</div>
       </div>`;
     msgsEl.appendChild(row);
+    scroll();
   }
 
   async function sendMessage() {
     const text = inputEl.value.trim();
     if (!text || isLoading || !API_KEY) return;
 
-    appendUser(text);
+    appendYou(text);
     history.push({ role: 'user', content: text });
     inputEl.value = '';
     autoResize();
@@ -463,16 +484,16 @@ HOW TO RESPOND:
 
       if (!res.ok) {
         const msg = data?.error?.message || 'error ' + res.status;
-        appendBot('okay something broke 😭 (' + msg + ') — wanna try again?');
+        appendFuture('Something went sideways on my end 😅 (' + msg + ') — want to try again?');
         history.pop();
       } else {
-        const reply = data.content?.[0]?.text || 'my brain glitched lol, try again?';
+        const reply = data.content?.[0]?.text || 'I seem to have momentarily lost the time connection. Try again?';
         history.push({ role: 'assistant', content: reply });
-        appendBot(reply);
+        appendFuture(reply);
       }
     } catch (err) {
       typing.remove();
-      appendBot('ugh network issue 😩 (' + err.message + ') — try again?');
+      appendFuture('Network glitch! (' + err.message + ') — try again?');
       history.pop();
     }
 
@@ -487,18 +508,28 @@ HOW TO RESPOND:
     sendMessage();
   }
 
-  function appendUser(text) {
+  function appendYou(text) {
     const row = document.createElement('div');
-    row.className = 'msg-row sent';
-    row.innerHTML = `<div><div class="bubble sent">${esc(text)}</div><div class="bubble-meta">${now()}</div></div><div class="msg-av user">you</div>`;
+    row.className = 'msg-row you';
+    row.innerHTML = `
+      <div>
+        <div class="bubble you">${esc(text)}</div>
+        <div class="msg-time">${now()} · you, 2025</div>
+      </div>
+      <div class="msg-av you">me</div>`;
     msgsEl.appendChild(row);
     scroll();
   }
 
-  function appendBot(text) {
+  function appendFuture(text) {
     const row = document.createElement('div');
     row.className = 'msg-row';
-    row.innerHTML = `<div class="msg-av bot">S</div><div><div class="bubble bot">${fmt(text)}</div><div class="bubble-meta">${now()}</div></div>`;
+    row.innerHTML = `
+      <div class="msg-av future">✨</div>
+      <div>
+        <div class="bubble future">${fmt(text)}</div>
+        <div class="msg-time">${now()} · future shyani, 2030</div>
+      </div>`;
     msgsEl.appendChild(row);
     scroll();
   }
@@ -506,7 +537,11 @@ HOW TO RESPOND:
   function showTyping() {
     const row = document.createElement('div');
     row.className = 'typing-row';
-    row.innerHTML = `<div class="msg-av bot">S</div><div class="typing-bubble"><span class="td"></span><span class="td"></span><span class="td"></span></div>`;
+    row.innerHTML = `
+      <div class="msg-av future">✨</div>
+      <div class="typing-bubble">
+        <span class="td"></span><span class="td"></span><span class="td"></span>
+      </div>`;
     msgsEl.appendChild(row);
     scroll();
     return row;
@@ -515,14 +550,19 @@ HOW TO RESPOND:
   function scroll() { setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 60); }
   function now()    { return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
   function esc(s)   { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function fmt(t)   {
+  function fmt(t) {
     t = t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>');
     return t.split(/\n\n+/).map(p => '<p>' + p.replace(/\n/g,'<br/>') + '</p>').join('');
   }
 
   inputEl.addEventListener('input', autoResize);
-  inputEl.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
-  function autoResize() { inputEl.style.height = 'auto'; inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px'; }
+  inputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+  function autoResize() {
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
+  }
 </script>
 </body>
 </html>
